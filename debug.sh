@@ -3,11 +3,15 @@
 
 clear
 
+# Reiniciar el proyecto
 docker stop dotkali
 docker rm dotkali
 docker rmi kali-dotfiles
 
+# Construir la imagen
 docker build . -t kali-dotfiles
+
+# Crear un contenedor
 docker run \
 	-itd \
         --name dotkali \

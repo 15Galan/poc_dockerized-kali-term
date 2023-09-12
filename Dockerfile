@@ -12,7 +12,8 @@ RUN apt update
 RUN apt install sudo man tldr zsh nano vim curl wget openssh-server git -y
 RUN apt install xauth -y
 
-# Configuración del SSH
+
+# Configuracion del SSH
 RUN mkdir -p /run/sshd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
@@ -26,18 +27,23 @@ RUN chown -R user:user /home/user/.ssh
 RUN chmod 700 /home/user/.ssh
 RUN chmod 600 /home/user/.ssh/authorized_keys
 
-# Configuración de 'user'
+
+# Configuracion de 'user'
 RUN usermod -aG sudo user
 
-# Instalación de 'dotfiles'
+
+# Instalacion de 'dotfiles'
 WORKDIR /home/user/
+
 COPY dotfiles-rijaba1 dotfiles-rijaba1
+
 RUN chmod +x dotfiles-rijaba1/install.sh
 RUN chown -R user:user dotfiles-rijaba1
 RUN sudo -u user ./dotfiles-rijaba1/install.sh
 RUN apt install kitty -y
 
-# Configuración del X11
+
+# Configuracion del X11
 RUN echo 'X11UseLocalhost no' >> /etc/ssh/sshd_config
 RUN echo 'AddressFamily inet' >> /etc/ssh/sshd_config
 
@@ -52,5 +58,5 @@ RUN export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
 RUN apt install mesa-utils -y
 
 
-#Servicio necesario
+# Servicio necesario
 CMD ["/usr/sbin/sshd", "-D"]
