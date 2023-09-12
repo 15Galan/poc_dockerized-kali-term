@@ -1,3 +1,6 @@
+#!/bin/bash
+
+
 clear
 
 docker stop dotkali
