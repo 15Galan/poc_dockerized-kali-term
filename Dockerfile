@@ -9,26 +9,14 @@ ENV PORTS 5555
 
 # Paquetes necesarios
 RUN apt update
-RUN apt install sudo man tldr zsh nano vim curl wget openssh-server git -y
+RUN apt install sudo man tldr zsh nano vim curl wget git -y
 RUN apt install xauth -y
 
 
-# Configuracion del SSH
-RUN mkdir -p /run/sshd
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
-RUN ssh-keygen -A
-RUN echo 'root:root' | chpasswd
+# Configuracion de los usuarios
 RUN useradd -m -s /bin/zsh user
 RUN echo 'user:user' | chpasswd
-RUN mkdir /home/user/.ssh
-RUN touch /home/user/.ssh/authorized_keys
-RUN chown -R user:user /home/user/.ssh
-RUN chmod 700 /home/user/.ssh
-RUN chmod 600 /home/user/.ssh/authorized_keys
-
-
-# Configuracion de 'user'
+RUN echo 'root:root' | chpasswd
 RUN usermod -aG sudo user
 
 
@@ -59,4 +47,5 @@ RUN apt install mesa-utils -y
 
 
 # Servicio necesario
-CMD ["/usr/sbin/sshd", "-D"]
+USER user
+CMD ["kitty"]

@@ -20,10 +20,3 @@ docker run \
         -e DISPLAY \
         -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
         kali-dotfiles
-
-docker ps
-
-ssh-keygen -f "$HOME/.ssh/known_hosts" -R "[localhost]:2222"
-
-ssh user@localhost -p 2222
-
