@@ -2,9 +2,15 @@
 FROM kalilinux/kali-rolling
 
 
+# Variables de entoro
+ENV DISPLAY :0
+ENV PORTS 5555
+
+
 # Paquetes necesarios
 RUN apt update
 RUN apt install sudo man tldr zsh nano vim curl wget openssh-server git -y
+RUN apt install xauth -y
 
 # Configuración del SSH
 RUN mkdir -p /run/sshd
@@ -29,10 +35,21 @@ COPY dotfiles-rijaba1 dotfiles-rijaba1
 RUN chmod +x dotfiles-rijaba1/install.sh
 RUN chown -R user:user dotfiles-rijaba1
 RUN sudo -u user ./dotfiles-rijaba1/install.sh
+RUN apt install kitty -y
 
-# Habilitar nosequé del X11
-RUN sed -i 's/#   ForwardX11 no/    ForwardX11 yes/' /etc/ssh/ssh_config
-RUN sed -i 's/#   ForwardX11Trusted yes/    ForwardX11Trusted yes/' /etc/ssh/ssh_config
+# Configuración del X11
+RUN echo 'X11UseLocalhost no' >> /etc/ssh/sshd_config
+RUN echo 'AddressFamily inet' >> /etc/ssh/sshd_config
+
+
+# Exponer los puertos
+EXPOSE ${PORTS}
+
+
+# Dependencias de errores de 'kitty'
+RUN apt install fontconfig-config fonts-guru-extra libfontconfig-dev -y
+RUN export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
+RUN apt install mesa-utils -y
 
 
 #Servicio necesario

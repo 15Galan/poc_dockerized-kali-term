@@ -5,7 +5,14 @@ docker rm dotkali
 docker rmi kali-dotfiles
 
 docker build . -t kali-dotfiles
-docker run --name dotkali -itd -p 2222:22 kali-dotfiles
+docker run \
+	-itd \
+        --name dotkali \
+        -p 5555:5555 \
+        -h ${HOSTNAME}-kali \
+        -e DISPLAY \
+        -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+        kali-dotfiles
 
 docker ps
 
