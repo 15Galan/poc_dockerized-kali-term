@@ -39,7 +39,7 @@ COPY dotfiles-rijaba1 dotfiles-rijaba1
 
 RUN chmod +x dotfiles-rijaba1/install.sh
 RUN chown -R user:user dotfiles-rijaba1
-RUN sudo -u user ./dotfiles-rijaba1/install.sh
+# RUN sudo -u user ./dotfiles-rijaba1/install.sh
 RUN apt install kitty -y
 
 
