@@ -9,8 +9,10 @@ ENV PORTS 5555
 
 # Paquetes necesarios
 RUN apt update
-RUN apt install sudo man tldr zsh nano vim curl wget git -y
-RUN apt install xauth -y
+RUN apt install sudo man tldr zsh nano vim curl wget git xauth -y
+RUN apt install fontconfig-config fonts-guru-extra libfontconfig-dev mesa-utils -y
+
+RUN export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
 
 
 # Configuracion de los usuarios
@@ -33,12 +35,6 @@ RUN apt install kitty -y
 
 # Exponer los puertos
 EXPOSE ${PORTS}
-
-
-# Dependencias de errores de 'kitty'
-RUN apt install fontconfig-config fonts-guru-extra libfontconfig-dev -y
-RUN export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
-RUN apt install mesa-utils -y
 
 
 # Servicio necesario
