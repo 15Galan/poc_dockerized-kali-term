@@ -31,11 +31,6 @@ RUN chown -R user:user dotfiles-rijaba1
 RUN apt install kitty -y
 
 
-# Configuracion del X11
-RUN echo 'X11UseLocalhost no' >> /etc/ssh/sshd_config
-RUN echo 'AddressFamily inet' >> /etc/ssh/sshd_config
-
-
 # Exponer los puertos
 EXPOSE ${PORTS}
 
